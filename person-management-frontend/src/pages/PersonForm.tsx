@@ -4,6 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import moment from "moment";
 import api from "../services/api";
 import { Person } from "../types/Person";
+import { runes } from 'runes2';
 
 const { Option } = Select;
 
@@ -54,14 +55,15 @@ const PersonForm: React.FC = () => {
   };
 
   return (
-    <Form form={form} onFinish={onFinish} layout="vertical" className="p-4 md:p-8">
+    <Form form={form} onFinish={onFinish} layout="vertical" className="p-4">
       <Form.Item
         name="name"
         label="Name"
-        className="text-white"
         rules={[{ required: true, message: "Please input the name!" }]}
       >
-        <Input />
+        <Input
+          className="md:w-[30rem] lg:w-[50rem]"
+        />
       </Form.Item>
       <Form.Item
         name="gender"
@@ -89,7 +91,14 @@ const PersonForm: React.FC = () => {
           { len: 11, message: "Phone number must be exactly 11 digits!" },
         ]}
       >
-        <Input />
+        <Input
+        className="w-full"
+        count={{
+          show: true,
+          max: 11,
+          strategy: (txt) => runes(txt).length,
+          exceedFormatter: (txt, { max }) => runes(txt).slice(0, max).join('')
+        }} />
       </Form.Item>
       <Form.Item
         name="email"
